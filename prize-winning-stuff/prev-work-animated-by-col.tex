@@ -1,0 +1,58 @@
+\newcommand{\aheader}[2]{\action<#1-|alert@#1>{#2}}
+% first argument: slide number to appear from, second argument: content of header 
+\newcommand{\hc}[2]{\action<#1->{#2}}
+% first argument: slide number to appear from, second argument: content of cell
+
+\begin{frame}
+    \frametitle{Our ADs and Previous Work}
+
+    \begin{table}
+        %\large
+        \small
+        %\footnotesize
+        %\scriptsize
+        \centering
+        \setlength{\tabcolsep}{.4em} % space between columns
+%        \caption{
+%            \footnotesize
+%            %$n$ is the dictionary size and $b$ is the subvector size.
+%            ``Updatability'' for individual lookup proofs ($I$), aggregated lookup proofs ($A$), aggregated lookup proofs, but only after changes to existing keys ($a$), cross-aggregated lookup proofs $(X)$ and digests ($D$).
+%        }
+        %\pause
+        \begin{tabular}{lccccccc}
+            %\toprule
+                         {\makecell{AD scheme}}
+            & \aheader{2}{\makecell{Aggrega-\\table $\pi$'s?}}
+            & \aheader{4}{\makecell{Binding}}
+            & \aheader{6}{\makecell{Updata-\\bility?}}
+            & \aheader{8}{\makecell{Update \\hint-free?}}
+            & \aheader{10}{\makecell{Non-memb.\\$\pi$'s?}}
+            & \aheader{12}{\makecell{Append-\\only $\pi$'s?}}
+            & \aheader{14}{\makecell{Prove\\all fast?}}
+            \\
+            \toprule
+            Merkle tree~\cite{Merkle87}
+            & \hc{3}{\nop}            & \hc{5}{\g{Strong}} & \hc{7}{I}    & \nop & \yep     & \nop & \yep\\
+            SADS~\cite{PSTY13}
+            & \hc{3}{\nop}            & \hc{5}{\g{Strong}} & \hc{7}{DI}   & \yep & \yep     & \nop & \yep\\
+            AHTs~\cite{PTT15}
+            & \hc{3}{\nop}            & \hc{5}{\m{Weak}}   & \hc{7}{\nop} & n/a  & \yep     & \nop & \yep\\
+            % See VC.BatchOpen^* for opening multiple VC positions
+            KVC$_1$~\cite{BBF18}
+            & \hc{3}{\m{One-hop}}     & \hc{5}{\g{Strong}} & \hc{7}{DI}   & \nop & \yep     & \nop & \yep\\
+            KVC$_2$~\cite{BBF18}
+            & \hc{3}{\m{One-hop}}     & \hc{5}{\m{Weak}}   & \hc{7}{DI}   & \nop & \yep     & \nop & \yep\\
+            AAD~\cite{Tome20}
+            & \hc{3}{\nop}            & \hc{5}{\g{Strong}} & \hc{7}{\nop} & n/a  & \yep     & \yep & \yep\\
+            Aardvark~\cite{LGG+20}
+            & \hc{3}{\m{One-hop}}     & \hc{5}{\m{Weak}}   & \hc{7}{DI}   & \nop & \yep     & \nop & \nop\\
+            KVaC~\cite{AR20}
+            & \hc{3}{\m{One-hop}}     & \hc{5}{\m{Weak}}   & \hc{7}{DI}   & \yep & \nop     & \nop & \nop\\
+            \toprule
+            Our \textbf{UAD}
+            & \hc{3}{\g{Cross-incr.}} & \hc{5}{\m{Weak}}   & \hc{7}{ADIX} & \nop & $\yep$\footnote{Our UAD supports non-membership proofs, but they can only be ``one-hop'' aggregated.} & \yep & \yep\\
+            Our \textbf{AAD}
+            & \hc{3}{\m{One-hop}}     & \hc{5}{\g{Strong}} & \hc{7}{aDI}\footnote{Can only update when existing keys change.} & \nop & \yep     & \yep & \yep\\
+        \end{tabular}
+    \end{table}
+\end{frame}

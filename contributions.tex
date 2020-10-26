@@ -1,0 +1,17 @@
+\begin{frame}
+    \frametitle{Our contributions}
+    \begin{enumerate}
+        \item A new notion of \alert{cross-incremental proof (dis)aggregation} for authenticated data structures\pause,
+        \item An \alert{updatable authenticated dictionary (UAD)} construction that supports this notion (and can be used for stateless validation)\pause,
+        \item An \alert{append-only authenticated dictionary (AAD)} construction that is more efficient and more versatile than previous work (and can be used for transparency logs).\pause
+        % i.e., supports proof updates and one-hop aggregation
+    \end{enumerate}
+    In the process, we also give:\pause
+    \begin{enumerate}
+        \item New techniques to compute \textbf{all} non-membership witnesses across, different (but related) RSA accumulators\pause,
+        \begin{itemize}
+            \item Plus, new techniques for aggregating such witnesses.\pause
+        \end{itemize}
+        \item A faster algorithm for witness extraction in Boneh et al's \alert{PoKCR} protocol~\cite{BBF18}.
+    \end{enumerate}
+\end{frame}

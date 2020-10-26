@@ -1,0 +1,122 @@
+\begin{frame}
+    \frametitle{From CF VC to Authenticated Dictionary}
+    Let $D$ be a dictionary.\pause\\
+    Treat $D$ as a ``sparse'' vector whose indices are its keys.\pause\xspace $\dig{D}=(S,\Lambda)$:\pause
+    \begin{align}
+        \onslide<4->{S &=g^{\prod_{k\in D} e_k},\ \text{where}\ e_k=H(k)}\\
+        \onslide<5->{\Lambda &= \prod_{k\in D} (S^{1/e_k})^{v_k}}
+    \end{align}
+    \pause[6]\noindent
+    \underline{Similar to CF VCs:}\pause\\
+    \begin{itemize}
+    \item Digest remains updatable \textcolor{gray}{(except must handle removing keys)}.\pause
+    \item Proof $\pi_K$ for many keys $K$ remains $\dig{D\setminus D(K)}$.\pause
+    \item Proof remains updatable \textcolor{gray}{(except must handle removing keys)}.\pause
+    \item Proofs remain incrementally (dis)aggregatable\pause
+    \end{itemize}
+    Concurrent idea with \cite{AR20}, which elegantly removes update keys.\pause\\
+    We go in a different direction:\pause\xspace
+        \alert{(1)} cross-incremental aggregation\pause,
+        \alert{(2)} non-membership proofs\pause,
+        \alert{(3)} strong-binding\pause, and
+        \alert{(4)} append-only proofs.
+\end{frame}
+
+\begin{frame}
+    \frametitle{\alert{Dynamic} Authenticated Dictionary: Updating Digest}
+    \pause\noindent
+    As previously shown, can easily add $(\hat{k},v_{\hat{k}})$ to $\dig{D}=(S,\Lambda)$ and get $\dig{D'} = (S', \Lambda')$.\pause\\
+    \vspace{1em}
+    Remove $(\hat{k},v_{\hat{k}})$ from $D$?\pause\xspace\\
+    Updated digest $\dig{D\setminus D(\hat{k})} = $ lookup proof $\alert{\pi_{\hat{k}}}$ w.r.t $\dig{D}$.\pause\\
+    \vspace{1em}
+    Multiple removals $\hat{K}$?\pause\xspace\\
+    Updated digest $\dig{D\setminus D(\hat{K})} = $ aggregated lookup proof $\alert{\pi_{\hat{K}}}$ w.r.t $\dig{D}$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{\alert{Updatable} Authenticated Dictionary: Updating Proofs}
+    Proof $\pi_K = \dig{D\setminus D(K)}\pause\xspace \Rightarrow$ After adding $(\hat{k},v_{\hat{k}})$, update to $\alert{\pi_K'}$ in the same fashion.\pause\\
+    \vspace{1em}
+    Update to $\alert{\pi_K'}$ after removing $(\hat{k},v_{\hat{k}})$ from $D$?\pause\\
+    %\pause\xspace \textcolor{gray}{(Assume $\hat{k}\notin K$.)}
+    $\alert{\pi_K'}$ must verify w.r.t. $\dig{D'}$, where $D' = D\setminus D(\hat{k})$.\pause\xspace
+    Note that:\pause
+    $$\alert{\pi_K'} = \dig{D'\setminus D'(K)}\pause =  \dig{(D\setminus D(\hat{k}))\setminus D'(K)}\pause = \dig{(D\setminus D(\hat{k}))\setminus D(K)}$$
+    But this is exactly $\pi_{K\cup{\hat{k}}}$ w.r.t. $D$\pause, which we can aggregate from $\pi_K$ and $\alert{\pi_{\hat{k}}}$.\\
+\end{frame}
+
+\begin{frame}
+    \frametitle{Cross-incremental Proof (Dis)aggregation}
+    $\alert{m}$ different dictionaries with digest $\dig{D_i}=(\alert{A_i},c_i)$:\pause
+    \begin{align}
+        \onslide<2->{A_i &= g^{\prod_{k\in D_i} e_k}}
+        \onslide<3->{\ \text{and}\
+                      c_i = \prod_{k\in D_i} (A_i^{1/e_k})^{v_k}}
+    \end{align}
+    \pause[4]
+    Proofs for $K_i$ w.r.t. $\dig{D_i}$ consists of:\pause
+    \begin{align}
+        \onslide<6->{\alert{W_i} &= {A_i}^{1/e_{K_i}}}\\
+        \onslide<7->{\alert{\Lambda_i} &= \left(\prod_{k\in D-D(K_i)} (A_i^{1/e_k})^{v_k}\right)^{1/e_{K_i}}}
+        \onslide<8->{           = \left(\frac{\prod_{k\in D} (A_i^{1/e_k})^{v_k}}{\prod_{k\in D(K_i)} (A_i^{1/e_k})^{v_k}}\right)^{1/e_{K_i}}}\\
+        %\onslide<5->{ = \left(\underbrace{c_i / \prod_{k\in K_i} (A_i^{1/e_k})^{v_k}}_{\alert{\alpha_i}}\right)^{1/e_{K_i}}}
+        \onslide<9->{ &= \left(c_i / \prod_{k\in K_i} (A_i^{1/e_k})^{v_k}\right)^{1/e_{K_i}}}
+        \onslide<10->{ = \alert{\alpha_i}^{1/e_{K_i}}}
+    \end{align}
+    \pause[11]\noindent
+    Can aggregate \alert{co-prime} roots as $\alert{W}=\prod_{i\in[m]} W_i$ and $\alert{\Lambda} = \prod_{i\in [m]}\Lambda_i$ via \alert{PoKCR}~\cite{BBF18}, but...
+\end{frame}
+
+\begin{frame}
+    \frametitle{Cross-incremental Proof (Dis)aggregation via \alert{PoKCR}~\cite{BBF18}}
+    ...but \alert{PoKCR} requires $\gcd(e_{K_i}, e_{K_j})= 1,\forall i\ne j$\pause. Not true if $k\in K_i \cap K_j$, because $e_k | e_{K_i}$ and $e_k | e_{K_j}$.\pause\\
+    \vspace{1em}
+    \textbf{Fix:} Require different $H_i(\cdot)$ for each $D_i$, so $e_{K_i} = \prod_{k\in K_i} H_i(k)$.\pause\\
+    This way, $H_i(k) \ne H_j(k)$ and $\gcd(e_{K_i}, e_{K_j}) = 1,\forall i\ne j$.\pause\\
+    \vspace{1em}
+    \textit{Limitation:} Each $D_i$ must use different public parameters.\pause\xspace
+    Not ideal; future work?
+\end{frame}
+
+\begin{frame}
+    \frametitle{Verifying cross-aggregated proofs}
+    Let $e^* = \prod_{i\in[m]} e_{K_i}$.\pause\xspace
+    Verify each $W_i$ aggregated within $\alert{W}$ (via \alert{PoKCR}~\cite{BBF18})\pause:
+    $$\alert{W}^{e^*} \stackrel{?}{=} \prod_{i\in [m]} A_i^{e^* / e_{K_i}}\pause = \multirootexp((A_i)_{i\in[m]}, (e_{K_i})_{i\in [m]})\ \text{\textcolor{gray}{from~\cite{BBF18}}}$$\pause\noindent
+    If the above holds, then can \textbf{extract} all $W_i$'s from $\alert{W}$ such that $W_i^{e_{K_i}} = A_i$.\pause\xspace
+    \begin{itemize}
+        \item \footnotesize We give \textit{faster} algorithm for this that saves a factor of $O(m/\log{m})$ work!\pause
+    \end{itemize}
+    % Naively, $O(\ell b m^2\log{m})$.
+    % Ours, %O(\ell b m\log^2{m})
+    Using the extracted $W_i$'s and a few $\rootfactor$'s, we reconstruct the $\alert{\alpha_i}$'s\pause:
+    $$\alert{\alpha_i} = c_i / \prod_{k\in K_i} (A_i^{1/e_k})^{v_k}$$\pause
+    Then, verify the $\Lambda_i$'s aggregated within $\alert{\Lambda}$:\pause
+    $$\alert{\Lambda}^{e^*} \stackrel{?}{=} \prod_{i\in [m]} \alert{\alpha_i}^{e^*/e_{K_i}} = \multirootexp((\alert{\alpha_i})_{i\in[m]}, (e_{K_i})_{i\in [m]})$$\pause
+    \noindent
+    % \multirootexp takes in $O(\ell b m \log{m})$ group operations
+    If $b=\max_i{|K_i|}$, verification takes $O(\ell b m (\log^2{m}+\log{b}))$ \Gho ops.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Disaggregating and Updating cross-aggregated proofs}
+    The $W_i$'s and $\Lambda_i$'s can be extracted from $(\alert{W},\alert{\Lambda})$\pause\xspace $\Rightarrow$ Can recover original proofs!\pause\\
+    \vspace{1em}
+    \underline{Consequences:}\pause
+    \begin{itemize}
+        \item Can disaggregate cross-aggregated proofs\pause
+        \item Can update cross-aggregated proofs\pause
+    \end{itemize}
+    ...and that concludes our UAD presentation!\pause\\
+    \vspace{1em}
+    \alert{Other goodies} for applications beyond stateless validation?\pause
+    \begin{itemize}
+        \item \textbf{Strong binding}\pause: RSA non-membership witness for $k$ w.r.t. $S_k$ from $\pi_k=(S_k, \Lambda_k)$\pause
+        \begin{itemize}
+            \item Downgrade to one-hop aggregation (via \alert{PoKE}~\cite{BBF18})\pause
+        \end{itemize}
+        \item \textbf{Non-membership proofs}\pause: RSA non-membership witness w.r.t. $S$ from $\dig{D}=(S,\Lambda)$\pause
+        \item \textbf{Append-only proofs} for transparency logs:\pause\xspace observe $\alert{S'} = S^u$ and $\alert{\Lambda'} = \Lambda^u S^z$ for $u,z\in \mathbb{Z}$
+    \end{itemize}
+\end{frame}

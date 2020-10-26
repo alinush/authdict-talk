@@ -1,0 +1,307 @@
+@inproceedings{TBP+19,
+  address =       {New York, NY, USA},
+  author =        {Tomescu, Alin and Bhupatiraju, Vivek and
+                   Papadopoulos, Dimitrios and Papamanthou, Charalampos and
+                   Triandopoulos, Nikos and Devadas, Srinivas},
+  booktitle =     {ACM CCS'19},
+  pages =         {1299–1316},
+  publisher =     {Association for Computing Machinery},
+  series =        {CCS ’19},
+  title =         {{Transparency Logs via Append-Only Authenticated
+                   Dictionaries}},
+  year =          {2019},
+  doi =           {10.1145/3319535.3345652},
+  isbn =          {9781450367479},
+  url =           {https://doi.org/10.1145/3319535.3345652},
+}
+
+@phdthesis{Tome20,
+  address =       {Cambridge, MA, USA},
+  author =        {Tomescu, Alin},
+  publisher =     {Massachusetts Institute of Technology},
+  school =        {Massachusetts Institute of Technology},
+  title =         {{How to Keep a Secret and Share a Public Key (Using
+                   Polynomial Commitments)}},
+  year =          {2020},
+}
+
+@inproceedings{Bd93,
+  address =       {Berlin, Heidelberg},
+  author =        {Benaloh, Josh and de Mare, Michael},
+  booktitle =     {EUROCRYPT '93},
+  editor =        {Helleseth, Tor},
+  pages =         {274--285},
+  publisher =     {Springer Berlin Heidelberg},
+  title =         {{One-Way Accumulators: A Decentralized Alternative to
+                   Digital Signatures}},
+  year =          {1994},
+  abstract =      {This paper describes a simple candidate one-way hash
+                   function which satisfies a quasi-commutative property
+                   that allows it to be used as an accumulator. This
+                   property allows protocols to be developed in which
+                   the need for a trusted central authority can be
+                   eliminated. Space-efficient distributed protocols are
+                   given for document time stamping and for membership
+                   testing, and many other applications are possible.},
+  isbn =          {978-3-540-48285-7},
+}
+
+@inproceedings{Nguyen05,
+  address =       {Berlin, Heidelberg},
+  author =        {Nguyen, Lan},
+  booktitle =     {CT-RSA '05},
+  editor =        {Menezes, Alfred},
+  pages =         {275--292},
+  publisher =     {Springer Berlin Heidelberg},
+  title =         {{Accumulators from Bilinear Pairings and
+                   Applications}},
+  year =          {2005},
+  abstract =      {We propose a dynamic accumulator scheme from bilinear
+                   pairings and use it to construct an identity-based
+                   (ID-based) ring signature scheme with constant-size
+                   signatures and to provide membership revocation to
+                   group signature schemes, identity escrow schemes and
+                   anonymous credential systems. The ID-based ring
+                   signature scheme and the group signature scheme have
+                   very short signature sizes. The size of our group
+                   signatures with membership revocation is only half
+                   the size of those in the well-known ACJT00 scheme,
+                   which does not provide membership revocation. The
+                   schemes do not require trapdoor, so system parameters
+                   can be shared by multiple groups belonging to
+                   different organizations. All schemes are provably
+                   secure in formal models. We generalize the definition
+                   of accumulators and provide formal models for
+                   ID-based ad-hoc anonymous identification schemes and
+                   identity escrow schemes with membership revocation.},
+  isbn =          {978-3-540-30574-3},
+}
+
+@misc{BBF18,
+  author =        {Dan Boneh and Benedikt Bünz and Ben Fisch},
+  howpublished =  {Cryptology ePrint Archive, Report 2018/1188},
+  note =          {\url{https://eprint.iacr.org/2018/1188}},
+  title =         {{Batching Techniques for Accumulators with
+                   Applications to IOPs and Stateless Blockchains}},
+  year =          {2018},
+}
+
+@inproceedings{Merkle87,
+  address =       {Berlin, Heidelberg},
+  author =        {Merkle, Ralph C.},
+  booktitle =     {CRYPTO '87},
+  editor =        {Pomerance, Carl},
+  pages =         {369--378},
+  publisher =     {Springer Berlin Heidelberg},
+  title =         {{A Digital Signature Based on a Conventional
+                   Encryption Function}},
+  year =          {1988},
+  abstract =      {A new digital signature based only on a conventional
+                   encryption function (such as DES) is described which
+                   is as secure as the underlying encryption function --
+                   the security does not depend on the difficulty of
+                   factoring and the high computational costs of modular
+                   arithmetic are avoided. The signature system can sign
+                   an unlimited number of messages, and the signature
+                   size increases logarithmically as a function of the
+                   number of messages signed. Signature size in a
+                   `typical' system might range from a few hundred bytes
+                   to a few kilobytes, and generation of a signature
+                   might require a few hundred to a few thousand
+                   computations of the underlying conventional
+                   encryption function.},
+  isbn =          {978-3-540-48184-3},
+}
+
+@inproceedings{PSTY13,
+  address =       {Berlin, Heidelberg},
+  author =        {Papamanthou, Charalampos and Shi, Elaine and
+                   Tamassia, Roberto and Yi, Ke},
+  booktitle =     {Advances in Cryptology -- EUROCRYPT 2013},
+  editor =        {Johansson, Thomas and Nguyen, Phong Q.},
+  pages =         {353--370},
+  publisher =     {Springer Berlin Heidelberg},
+  title =         {{Streaming Authenticated Data Structures}},
+  year =          {2013},
+  abstract =      {We consider the problem of streaming verifiable
+                   computation, where both a verifier and a prover
+                   observe a stream of n elements x1,x2,{\ldots},xnand
+                   the verifier can later delegate some computation over
+                   the stream to the prover. The prover must return the
+                   output of the computation, along with a cryptographic
+                   proof to be used for verifying the correctness of the
+                   output. Due to the nature of the streaming setting,
+                   the verifier can only keep small local state (e.g.,
+                   logarithmic) which must be updatable in a streaming
+                   manner and with no interaction with the prover. Such
+                   constraints make the problem particularly challenging
+                   and rule out applying existing verifiable computation
+                   schemes.},
+  isbn =          {978-3-642-38348-9},
+}
+
+@article{PTT15,
+  author =        {Papamanthou, Charalampos and Tamassia, Roberto and
+                   Triandopoulos, Nikos},
+  journal =       {Algorithmica},
+  number =        {2},
+  pages =         {664--712},
+  title =         {{Authenticated Hash Tables Based on Cryptographic
+                   Accumulators}},
+  volume =        {74},
+  year =          {2016},
+  doi =           {10.1007/s00453-014-9968-3},
+  isbn =          {1432-0541},
+  url =           {https://doi.org/10.1007/s00453-014-9968-3},
+}
+
+@misc{LGG+20,
+  author =        {Derek Leung and Yossi Gilad and Sergey Gorbunov and
+                   Leonid Reyzin and Nickolai Zeldovich},
+  howpublished =  {Cryptology ePrint Archive, Report 2020/975},
+  note =          {\url{https://eprint.iacr.org/2020/975}},
+  title =         {{Aardvark: A Concurrent Authenticated Dictionary with
+                   Short Proofs}},
+  year =          {2020},
+}
+
+@misc{AR20,
+  author =        {Shashank Agrawal and Srinivasan Raghuraman},
+  howpublished =  {Cryptology ePrint Archive, Report 2020/1161},
+  note =          {\url{https://eprint.iacr.org/2020/1161}},
+  title =         {{KVaC: Key-Value Commitments for Blockchains and
+                   Beyond}},
+  year =          {2020},
+}
+
+@inproceedings{SSY01,
+  address =       {Berlin, Heidelberg},
+  author =        {Sander, Tomas and Ta-Shma, Amnon and Yung, Moti},
+  booktitle =     {Financial Cryptography},
+  editor =        {Frankel, Yair},
+  pages =         {53--71},
+  publisher =     {Springer Berlin Heidelberg},
+  title =         {{Blind, Auditable Membership Proofs}},
+  year =          {2001},
+  abstract =      {Auditability is an important property in financial
+                   systems and architectures. Here we define the
+                   primitive of ``blind auditable membership proof''
+                   (BAMP) which combines public auditability with
+                   privacy (i.e. user anonymity). In particular, one can
+                   use it as an auditable alternative to a ``blind
+                   signature'' component in unconditionally anonymous
+                   payment systems and in other systems requiring
+                   anonymity. We show that BAMP can be implemented quite
+                   efficiently (namely, without resorting to general
+                   zero-knowledge proofs of NP statements, which, in
+                   general, merely indicates plausibility).},
+  isbn =          {978-3-540-45472-4},
+}
+
+@inproceedings{LLX07,
+  address =       {Berlin, Heidelberg},
+  author =        {Li, Jiangtao and Li, Ninghui and Xue, Rui},
+  booktitle =     {Applied Cryptography and Network Security},
+  editor =        {Katz, Jonathan and Yung, Moti},
+  pages =         {253--269},
+  publisher =     {Springer Berlin Heidelberg},
+  title =         {{Universal Accumulators with Efficient Nonmembership
+                   Proofs}},
+  year =          {2007},
+  abstract =      {Based on the notion of accumulators, we propose a new
+                   cryptographic scheme called universal accumulators.
+                   This scheme enables one to commit to a set of values
+                   using a short accumulator and to efficiently compute
+                   a membership witness of any value that has been
+                   accumulated. Unlike traditional accumulators, this
+                   scheme also enables one to efficiently compute a
+                   nonmembership witness of any value that has not been
+                   accumulated. We give a construction for universal
+                   accumulators and prove its security based on the
+                   strong RSA assumption. We further present a
+                   construction for dynamic universal accumulators; this
+                   construction allows one to dynamically add and delete
+                   inputs with constant computational cost. Our
+                   construction directly builds upon Camenisch and
+                   Lysyanskaya's dynamic accumulator scheme. Universal
+                   accumulators can be seen as an extension to dynamic
+                   accumulators with support of nonmembership witness.
+                   We also give an efficient zero-knowledge proof
+                   protocol for proving that a committed value is not in
+                   the accumulator. Our dynamic universal accumulator
+                   construction enables efficient membership revocation
+                   in an anonymous fashion.},
+  isbn =          {978-3-540-72738-5},
+}
+
+@inproceedings{CF13,
+  author =        {Catalano, Dario and Fiore, Dario},
+  booktitle =     {PKC'13},
+  title =         {{Vector Commitments and Their Applications}},
+  year =          {2013},
+  abstract =      {We put forward the study of a new primitive that we
+                   call Vector Commitment (VC, for short). Informally,
+                   VCs allow to commit to an ordered sequence of q
+                   values (m1, . . . , mq) in such a way that one can
+                   later open the commitment at specific positions
+                   (e.g., prove that mi is the i-th committed message).
+                   For security, Vector Commitments are required to
+                   satisfy a notion that we call position binding which
+                   states that an adversary should not be able to open a
+                   commitment to two different values at the same
+                   position. Moreover, what makes our primitive
+                   interesting is that we require VCs to be concise,
+                   i.e. the size of the commitment string and of its
+                   openings has to be independent of the vector length.},
+}
+
+@inproceedings{LM19,
+  author =        {Lai, Russell W. F. and Malavolta, Giulio},
+  booktitle =     {CRYPTO'19},
+  title =         {{Subvector Commitments with Application to Succinct
+                   Arguments}},
+  year =          {2019},
+  abstract =      {We put forward the notion of subvector commitments
+                   (SVC): An SVC allows one to open a committed vector
+                   at a set of positions, where the opening size is
+                   independent of length of the committed vector and the
+                   number of positions to be opened. We propose two
+                   constructions under variants of the root assumption
+                   and the CDH assumption, respectively. We further
+                   generalize SVC to a notion called linear map
+                   commitments (LMC), which allows one to open a
+                   committed vector to its images under linear maps with
+                   a single short message, and propose a construction
+                   over pairing groups.},
+  isbn =          {978-3-030-26948-7},
+}
+
+@misc{CFG+20,
+  author =        {Matteo Campanelli and Dario Fiore and Nicola Greco and
+                   Dimitris Kolonelos and Luca Nizzardo},
+  note =          {\url{https://eprint.iacr.org/2020/149}},
+  title =         {{Vector Commitment Techniques and Applications to
+                   Verifiable Decentralized Storage}},
+  year =          {2020},
+}
+
+@inproceedings{Sha83,
+  address =       {Berlin, Heidelberg},
+  author =        {Shamir, Adi},
+  booktitle =     {Automata, Languages and Programming},
+  editor =        {Even, Shimon and Kariv, Oded},
+  pages =         {544--550},
+  publisher =     {Springer Berlin Heidelberg},
+  title =         {{On the generation of cryptographically strong
+                   pseudo-random sequences}},
+  year =          {1981},
+  abstract =      {In this paper we show how to generate from a short
+                   random seed S a long sequence of pseudo-random
+                   numbers Ri in which the problem of computing one more
+                   Ri value given an arbitrarily large subset of the
+                   other values is provably equivalent to the
+                   cryptanalysis of the associated Rivest-Shamir-Adleman
+                   encryption function.},
+  isbn =          {978-3-540-38745-9},
+}
+

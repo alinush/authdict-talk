@@ -1,0 +1,62 @@
+\begin{frame}
+    \frametitle{Verifying cross-aggregated proofs}
+    Let $e^* = \prod_{i\in[m]} e_{K_i}$ and $b=\max_i{|K_i|}$.\pause\xspace
+    To verify the aggregated $W$ via \alert{PoKCR}~\cite{BBF18}\pause:
+    % Each $K_i$ has at most $b$ keys in it
+    % So each $e_{K_i}$ is at most $\ell b$ bits
+    $$W^{e^*} \stackrel{?}{=} \prod_{i\in [m]} A_i^{e^* / e_{K_i}}\pause = \multirootexp((A_i)_{i\in[m]}, (e_{K_i})_{i\in [m]})$$\pause\noindent
+    \textcolor{gray}{\small (\multirootexp takes in $O(\ell b m \log{m})$ \Gho ops)}\pause\\
+    \textbf{Extract} all $W_i$'s from $W$ such that $W_i^{e_{K_i}} = A_i$.\pause\xspace
+    \alert{(We give faster $O(\ell b m \log^2{m})$ algorithm!)}\pause\\
+    % Naively, $O(bm^2\log{m})$.
+    $\forall i\in[m]$, compute $(A_i^{1/e_k})_{k\in K_i} = \rootfactor(W_i, (e_k)_{k\in K_i})$\pause\\
+    \textcolor{gray}{\small (Each \rootfactor takes $O(\ell b\log{b})$ \Gho ops $\Rightarrow$ all take $O(\ell b m \log{b})$)}\pause\\
+    $\forall i\in[m]$, compute $\alpha_i = c_i / \prod_{k\in K_i} (A_i^{1/e_k})^{v_k}$.\pause\\
+    $$\Lambda^{e^*} \stackrel{?}{=} \prod_{i\in [m]} \alpha_i^{e^*/e_{K_i}}\pause = \multirootexp((\alpha_i)_{i\in[m]}, (e_{K_i})_{i\in [m]})$$\pause
+    \noindent
+    % \multirootexp takes in $O(\ell b m \log{m})$ group operations
+    Overall, can verify in $O(\ell b m (\log^2{m}+\log{b}))$ \Gho ops.
+\end{frame}
+
+\begin{frame}
+    \frametitle{\alert{Incrementally} Aggregating Proofs in CF VCs~\cite{CFG+20}}
+    \alert{Aggregate} $\pi_I$ and $\pi_J$ into $\pi_{I\cup J}$?\pause\xspace \textcolor{gray}{\small (Assume $I\cap J=\varnothing$ or disaggregate.)}\pause\\
+
+    {\small {\hskip 2em} $\dig{\vect{v}\setminus\vect{v}_I}$ \textcolor{gray}{\&} $\dig{\vect{v}\setminus\vect{v}_J}$ {\hskip 3.2em} $\dig{\vect{v}\setminus\vect{v}_I\setminus\vect{v}_J}$\pause}
+    $$S_{I\cup J} = S^\frac{1}{e_I e_J}\pause =\shamirtrick(S_I, S_J, e_I, e_J)\pause=\shamirtrick(S^{1/e_I}, S^{1/e_J}, e_I, e_J)$$\pause
+    %
+    $\Lambda_{I\cup J}=\prod_{k\in [n]\setminus {(I\cup J)}} (S_{I\cup J}^{1/e_k})^{v_k}=\left(\prod_{k\in [n]\setminus {(I\cup J)}} (S^{1/e_k})^{v_k}\right)^{\alert{\frac{1}{e_I e_J}}}$ is a bit more complicated.\pause
+    \begin{itemize}
+        \item Recall $\Lambda_I = \prod_{k\in [n]\setminus I} (S_I^{1/e_k})^{v_k}$.\pause
+        \item Tweak as $\alert{\Lambda_I^*} = \prod_{k\in [n]\setminus {(I\cup \alert{J})}} (S_I^{1/e_k})^{v_k}=(\prod_{k\in [n]\setminus {(I\cup \alert{J})}} (S^{1/e_k})^{v_k})^{\alert{\frac{1}{e_I}}}$.\pause
+        \begin{itemize}
+            \item How?\pause\xspace Divide out all $(S_I^{1/e_k})^{v_k}, k\in \alert{J}$ from $\Lambda_I$\pause
+            \item How?\pause\xspace Compute all $S_I^{1/e_k}, {k\in \alert{J}}$ via $\rootfactor(S_{I\cup J}, (e_j)_{j\in \alert{J}})$\pause
+        \end{itemize}
+        \item Similarly, $\alert{\Lambda_J^*}= \prod_{k\in [n]\setminus {(I\cup J)}} (S_J^{1/e_k})^{v_k}=(\prod_{k\in [n]\setminus {(I\cup J)}} (S^{1/e_k})^{v_k})^{\alert{\frac{1}{e_J}}}$.\pause
+        \item Finally, note $\Lambda_{I\cup J}=\shamirtrick(\Lambda_I^*,\Lambda_J^*, e_I, e_J)$\pause
+    \end{itemize}
+    \underline{Observation}: $O(\ell|I|\log{|I|})$ \Gho ops to aggregate, assuming $|I| > |J|$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Less-efficient \alert{Incremental} Disaggregation of Proofs in CF VCs~\cite{CFG+20}}
+    \alert{Disaggregate} $\pi_I=(S_I,\Lambda_I)$ for $\vect{v}_I$ into $\pi_K=(S_K,\Lambda_K)$ for $\vect{v}_K$\pause, where $K\subset I$\pause\xspace and $\alert{\Delta} = I\setminus K$?\pause\\
+    {\small {\hskip 6.7em} \textcolor{gray}{$\dig{\vect{v}\setminus\vect{v}_I}$} {\hskip 6.0em} \textcolor{gray}{$\dig{\vect{v}\setminus\vect{v}_K}$}\pause\\}
+    {\small Note that $(\vect{v}\setminus \vect{v}_I) + \vect{v}_\Delta \pause = (\vect{v}\setminus \vect{v}_I) + (\vect{v}_I  \setminus \vect{v}_K) \pause = \vect{v}\setminus\vect{v}_K$.}\pause
+    % Using set operations is not the best way to clearly explain this because: https://proofwiki.org/wiki/Set_Difference_is_Subset_of_Union_of_Differences
+    \begin{align}
+        \onslide<8->{S_K &= S_I^{\prod_{j\in \Delta} e_j} = S_I^{\alert{e_\Delta}}}\\
+        \onslide<9->{\Lambda_K &= \prod_{j\in \Delta} \left(S_K^{1/e_j}\right)^{v_j} \Lambda_I^{e_\Delta}}
+                 \onslide<10->{\ \text{\textcolor{gray}{(How to get all $S_K^{1/e_j}$?)}}}\\
+                 \onslide<11->{&= \prod_{j\in \Delta} \left(\alert{S_K^{1/e_j}}\right)^{v_j} \left(\prod_{j\in [n] - I} \left(S_I^{1/e_j}\right)^{v_j}\right)^{e_\Delta}}\\
+                 \onslide<12->{&= \prod_{j\in I-K} \left(S_K^{1/e_j}\right)^{v_j} \prod_{j\in [n] - I} \left(S_K^{1/e_j}\right)^{v_j}}
+                 \onslide<13->{ = \prod_{j\in [n] - K} \left(S_K^{1/e_j}\right)^{v_j}}
+    \end{align}
+    \pause[14]
+    \underline{Observations}:\pause\xspace
+        Can compute
+        \alert{(1)} \textit{all} $S_K^{1/e_j},j\in\Delta$ via $\rootfactor(S_I, (e_j)_{j\in \Delta})$ in $O(\ell|I|\log|I|)$ \Gho ops\pause\xspace and
+        \alert{(2)} all proofs in $O(\ell n\log^2{n})$ \Gho ops via disaggregation!
+    % dominates total cost because $|K| = 1 \Rightarrow |\Delta|=|I|-1$ and the cost is dominated by \rootfactor of size $\Delta$.
+\end{frame}

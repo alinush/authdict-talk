@@ -1,0 +1,87 @@
+%
+% Styling
+%
+\newcommand{\api}{\hangindent=\parindent \hangafter=1 \noindent}
+
+%
+% Some nice colors:
+%  Blue: #268bd2
+%  (Grey) Blue: #657b83
+%  Green: #859900
+%  (Dark) Orange: #cb4b16
+%  Red: #dc322f
+%  Periwinkle: #6c71c4
+%  Pink: #d33682
+%  Teal: #2aa198
+%  Yellow: #b58900
+%
+\definecolor{myBlueColor}{HTML}{268BD2}
+\definecolor{myYellowColor}{HTML}{B58900}
+%\definecolor{myGreenColor}{HTML}{859900}
+\definecolor{myRedColor}{HTML}{DC322F}
+%\definecolor{myOrangeColor}{HTML}{CB4B16}
+\newcommand{\myblue}[1]{\textcolor{myBlueColor}{#1}}
+\newcommand{\myred}[1]{\textcolor{myRedColor}{#1}}
+\newcommand{\myyellow}[1]{\textcolor{myYellowColor}{#1}}
+%\newcommand{\mygreen}[1]{\textcolor{myGreenColor}{#1}}
+\newcommand{\mygreen}[1]{\textcolor{mLightGreen}{#1}}
+\newcommand{\myorange}[1]{\textcolor{myOrangeColor}{#1}}
+
+%
+% Notes and TODOs
+%
+\newcommand{\todo}[1]{\noindent\textcolor{red}{\textbf{(}\textsc{\textbf{{TODO: }}}}#1\textcolor{red}{\textbf{)}}}
+\newcommand{\anote}[1]{\textcolor{blue}{[\textbf{Alin}: #1]}}
+
+%
+% Some mathy things
+%
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\newcommand{\bezout}{B\'ezout\xspace}
+\newcommand{\Gr}{\mathbb{G}}
+\newcommand{\Gho}{\ensuremath{\mathbb{G}_{?}}\xspace}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\GT}{\mathbb{G}_T}
+\newcommand{\Zp}{\mathbb{Z}_p}
+\newcommand{\poly}{{poly}}
+\newcommand{\negl}{{negl}}
+\newcommand{\lagr}{\ensuremath{\mathcal{L}}}
+\newcommand{\Adv}{\ensuremath{\mathcal{A}}\xspace} % adversary
+
+%
+% Vector Commitment things
+%
+\newcommand{\vect}[1]{\ensuremath{\textbf{{#1}}}}
+
+% Dictionary things
+\newcommand{\dig}[1]{\ensuremath{\color{mLightGreen}\mathsf{dig}\left(\normalcolor#1\color{mLightGreen}\right)\normalcolor}}
+
+% Algos for \Gho's
+\newcommand{\shamirtrick}{\ensuremath{\mathsf\boldmath{ShamirTrick}}\xspace}
+\newcommand{\rootfactor}{\ensuremath{\mathsf\boldmath{RootFactor}}\xspace}
+\newcommand{\multirootexp}{\ensuremath{\mathsf\boldmath{MultiRootExp}}\xspace}
+
+% Use this to animate a PDF with a bunch of pages!
+% Adds the pages #1 through #2 (inclusive) from pdfFile=#3 as separate slides, each with includegraphicsArgs=#4.
+% Sets the slide's title to #5 and adds #6 and #7 as before and after text.
+\def\pdfslides#1#2#3#4#5#6#7{%
+    \foreach \index in {#1, ..., #2}{%
+        \begin{frame}%
+            \frametitle{#5}%
+            {#6}%
+            %\pause
+            \begin{center}%
+                \includegraphics[page=\index,#4]{#3}%
+            \end{center}%
+            {#7}
+        \end{frame}%
+}}
+
+\newcommand\blfootnote[1]{%
+    \begingroup
+    \renewcommand\thefootnote{}\footnote{#1}%
+    \addtocounter{footnote}{-1}%
+    \endgroup
+}

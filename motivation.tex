@@ -1,0 +1,15 @@
+\begin{frame}
+    \frametitle{Motivation: Stateless Validation and Beyond}
+    We want \alert{authenticated dictionaries (ADs)}\pause\xspace for:\\
+    \vspace{1em}
+    \textbf{1.} \alert{Validation state}, which takes \textbf{hundreds of GBs} in cryptocurrencies, impeding scalability and decentralization.\pause
+    \begin{itemize}
+        \item Previous ADs are not sufficiently \textit{updatable}, \textit{aggregatable} or efficient.\pause
+        \item \alert{Vector Commitments (VCs)} suffice to authenticate validation state, but limit smart contract memory.\pause
+    \end{itemize}
+    \textbf{2.} \alert{Transparency logs} without extra trust assumptions.\pause
+    \begin{itemize}
+        \item Previous work~\cite{TBP+19,Tome20} uses \alert{RSA} and \alert{bilinear accumulators}~\cite{Bd93,Nguyen05}, but has high overheads.\pause
+    \end{itemize}
+    \textbf{3.} Their own sake: non-Merkle ADs are interesting and more powerful.
+\end{frame}

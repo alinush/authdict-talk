@@ -1,0 +1,186 @@
+\documentclass[usenames,dvipsnames,handout,aspectratio=169,10pt]{beamer}
+%\documentclass[usenames,dvipsnames,aspectratio=169,10pt]{beamer}
+
+\input{includes}
+
+% WARNING: Note, that you have to have Mozilla's \emph{Fira Sans} font and XeTeX installed to enjoy this wonderful typography.
+
+%\usetheme{Madrid}
+%
+% For Metropolis theme instructions, see:
+%  - Overleaf: https://www.overleaf.com/latex/templates/metropolis-beamer-theme/qzyvdhrntfmr
+%  - Manual: http://ctan.math.illinois.edu/macros/latex/contrib/beamer-contrib/themes/metropolis/doc/metropolistheme.pdf
+\usetheme[progressbar=frametitle]{metropolis}
+%\usecolortheme{default}
+\metroset{block=fill}  % draws boxes around \begin{block/alertblock/example}
+
+%\usepackage[sfdefault,semibold]{FiraSans}
+\usepackage[fakebold]{firamath-otf}
+\def\mathfamilydefault{cmss}
+\setsansfont[BoldFont={Fira Sans SemiBold}]{Fira Sans Book}
+%\setmathfont{Fira Math} % installed from https://github.com/firamath/firamath/releases/tag/v0.3.3
+%\setmathfont[range=\setminus]{Asana Sans}  % this isn't working
+% for some reason \setminus isn't working in Fira Math font
+\AtBeginDocument{% to do this after unicode-math has done its work
+    \renewcommand{\setminus}{\mathbin{\backslash}}%
+}
+
+% Using a modified title page for displaying the date after the affiliations.
+\setbeamertemplate{title page}{
+    \begin{minipage}[b][\paperheight]{\textwidth}
+        \ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
+        \vfill%
+        \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
+        \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+        \usebeamertemplate*{title separator}
+        \centering % NEW
+        \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+        \vspace*{2pt} % NEW
+        \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+        \vspace*{8pt} % NEW
+        \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+        \vfill
+        \vspace*{1mm}
+    \end{minipage}
+}
+
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Authenticated Dictionaries with Cross-Incremental Proof (Dis)aggregation] %optional
+{Authenticated Dictionaries with Cross-Incremental Proof (Dis)aggregation}
+%\subtitle{From Commitments to Lagrange Polynomials}
+
+% To better align author names using a \begin{tabular}{ccc}
+\makeatletter
+\long\def\beamer@author[#1]#2{%
+    \def\insertauthor{%
+        \def\inst{\beamer@insttitle}\def\and{\beamer@andtitle}%
+        \setlength{\tabcolsep}{2em}% space between columns
+        \renewcommand{\arraystretch}{2.5} % general space between rows (1 standard)
+        \begin{tabular}{ccc}#2\end{tabular}
+    }%
+    \def\beamer@shortauthor{#1}%
+    \ifbeamer@autopdfinfo%
+    \def\beamer@andstripped{}%
+    \beamer@stripands#1 \and\relax
+    {\let\inst=\@gobble\let\thanks=\@gobble\def\and{, }\hypersetup{pdfauthor={\beamer@andstripped}}}
+    \fi%
+}
+
+\makeatother
+\author[Tomescu, Xia, Newman]{
+    \makecell{\textbf{Alin Tomescu}\inst{1}\\\href{https://twitter.com/alinush407}{\textcolor{TolDarkBlue}{@alinush407}}} &
+    \makecell{Yu Xia\inst{2}\\\href{https://twitter.com/SuperAluex}{\textcolor{TolDarkBlue}{@SuperAluex}}} &
+    \makecell{Zachary Newman\inst{2}\\\href{zjn@mit.edu}{\textcolor{TolDarkBlue}{zjn@mit.edu}}}
+}
+
+\institute
+{
+   \centering
+   \inst{1} VMware Research,
+   \inst{2} MIT CSAIL
+}
+
+%\makeatletter
+%\def\date{\@dblarg\beamer@date}
+%\long\def\beamer@date[#1]#2{%
+%    \def\insertdate{#2%
+%        \\
+%        \vspace{1em}
+%        {\scriptsize \textit{While you're at it, feel free to read our blogpost too: \href{link}{text}}}%
+%    }%
+%    \def\beamer@shortdate{#1}%
+%}
+%\makeatother
+\date{\centering October 28th, 2020}
+
+%\logo{\includegraphics[height=1.5cm]{lion-logo.png}}
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+% Configure the footer line in beamer
+
+%\defbeamertemplate*{footline}{split theme}
+%{%
+%  \leavevmode%
+%  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+%    \usebeamerfont{author in head/foot}\insertshortauthor
+%  \end{beamercolorbox}%
+%  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+%    \usebeamerfont{title in head/foot}\insertshorttitle
+%  \end{beamercolorbox}}%
+%  \vskip0pt%
+%}
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the
+%beginning of each section and highlights the current section:
+
+%\AtBeginSection[]
+\AtBeginSubsection[]
+{
+  \begin{frame}
+    \frametitle{Outline}
+    \tableofcontents[
+        %sectionstyle=show/shaded,
+        %subsectionstyle=show/show/shaded,
+        %subsubsectionstyle=show/show/show/show
+    	currentsection,
+        currentsubsection,
+    ]
+  \end{frame}
+}
+%------------------------------------------------------------
+
+\begin{document}
+%---------------------------------------------------------
+\frame{\titlepage}
+%---------------------------------------------------------
+%\begin{frame}
+%\frametitle{Table of Contents}
+%\tableofcontents
+%\end{frame}
+%---------------------------------------------------------
+\input{defs}
+%---------------------------------------------------------
+\input{motivation}
+\input{contributions}
+\section{Our ADs and Previous Work}
+\input{previous-work}
+\section{Background}
+\input{cf}
+\section{Our Authenticated Dictionary}
+\input{uad}
+\input{conclusion}
+
+%---------------------------------------------------------
+%%
+%% The end!
+%%
+%{\setbeamercolor{palette primary}{fg=black, bg=yellow}
+%    \begin{frame}[standout]
+%        Thank you!\\
+%        \vspace{2em}
+%        \small
+%        {\normalfont Paper is too long?}
+%        Read our blogpost!\\
+%        \vspace{1em}
+%        \footnotesize
+%        \normalfont
+%        \href{link}{link}
+%    \end{frame}
+%}
+
+\appendix
+\section{Appendix} % both section and section* error with "<recently read> \calc@denominator"
+\input{appendix}
+%---------------------------------------------------------
+\begin{frame}[allowframebreaks]
+    \frametitle{References}
+    \bibliographystyle{alpha}
+    \bibliography{used}
+\end{frame}
+
+\end{document}

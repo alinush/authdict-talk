@@ -1,0 +1,102 @@
+\begin{frame}
+    \frametitle{Catalano-Fiore (CF) Vector Commitments~\cite{CF13,LM19,CFG+20}}
+    \pause
+    Let $\vect{v} = [v_1,\dots,v_n]$.\pause\xspace
+    Its \alert{digest} $\dig{\vect{v}}$ is:\pause
+    \begin{align}
+        \onslide<4->{S &= g^{\prod_{j\in[n]} e_j},\ \text{where}\ e_j=H(j)}\\
+        \onslide<5->{\Lambda &= \prod_{j\in[n]} (S^{1/e_j})^{v_j}}
+    \end{align}\pause[6]\noindent
+    Update $\dig{\vect{v}}$ after change $\alert{\delta_j}$ at $j$ \textcolor{gray}{(given \alert{update key $S^{1/e_j}$})}:\pause
+    \begin{align}
+        \Lambda' &= \Lambda \cdot \left(\alert{S^{1/e_j}}\right)^{\delta_j}
+    \end{align}\pause
+    \underline{Observations}:
+    \begin{itemize}
+        \item $v_i\in\{0,1\}^\ell$ and $e_i\in \mathsf{\boldmath{Primes}}_{\ell+1}$\pause
+        \item Can compute all $(\alert{S^{1/e_1}}, \alert{S^{1/e_2}},\dots,\alert{S^{1/e_n}})\leftarrow \rootfactor(g, [e_1,\dots,e_n])$~\cite{SSY01,BBF18}.\pause
+        \item $S = \mathsf\boldmath{RSA.Accumulate}(\{1,2,\dots,n\})$ and $\alert{S^{1/e_j}}$ is an RSA membership witness~\cite{Bd93,LLX07}.
+    \end{itemize}
+\end{frame}
+
+%\begin{frame}
+%    \frametitle{Proofs for CF VCs~\cite{CF13,CFG+20}}
+%    \pause
+%    \alert{Proof} for $v_i$ is digest of $\vec{v}$ ``without'' $i$:\pause
+%    \begin{align}
+%        \onslide<3->{S_i &= g^{\prod_{j\in[n]-\{i\}} e_j} = S^{1/e_i}}\\
+%        \onslide<4->{\Lambda_i &= \prod_{j\in[n]-\{i\}} \left(S_i^{1/e_j}\right)^{v_j}}
+%        \onslide<5->{           = \prod_{j\in[n]-\{i\}} \alert{S_{i,j}}^{v_j}}
+%    \end{align}\pause[6]\noindent
+%    Proof $\approx$ digest \& digest is updatable $\Rightarrow$ proof is updatable too!\pause
+%    \begin{align}
+%        \Lambda_i'=\Lambda_i\cdot \alert{S_{i,j}}^{\delta_j}
+%    \end{align}\pause
+%    \begin{alertblock}{\footnotesize Observations}{\footnotesize
+%        Given $S_j$, can compute $\alert{S_{i,j}} = S^\frac{1}{e_i e_j} = \shamirtrick(S_i, S_j, e_i, e_j)$~\cite{Sha83}
+%    }\end{alertblock}
+%\end{frame}
+
+
+\begin{frame}
+    \frametitle{Subvector Proofs for CF VCs~\cite{LM19, CFG+20}}
+    \pause
+    \alert{Proof} $\pi_I$ for subvector $\vect{v}_I = (v_i)_{i\in I}$, where $I\subseteq[n]$ is $\dig{\vect{v}\setminus\vect{v}_I}$:\pause
+    \begin{align}
+        \onslide<3->{\alert{S_I} &= g^{\prod_{j\in[n]\setminus I} e_j} = S^{1/\alert{e_I}}}
+        \onslide<4->{,\ \text{where}\ \alert{e_I} = \prod_{i\in I} e_i}\\
+        \label{eq:subv-proof:lambda}
+        \onslide<5->{\alert{\Lambda_I} &= \prod_{j\in[n]\setminus I} \left(S_I^{1/e_j}\right)^{v_j}}
+    \end{align}\pause[6]\noindent
+    Proof $\approx$ digest \& digest is updatable $\Rightarrow$ proof is updatable too!\pause
+    \begin{align}
+        \Lambda_I'=\Lambda_I\cdot \left(\alert{S_I^{1/e_j}}\right)^{\delta_j}
+    \end{align}\pause
+    \underline{Observation}:
+    Given $S^{1/e_j}$, can compute $\alert{S_I^{1/e_j}} = S^\frac{1}{e_I e_j} \pause = \shamirtrick(S_I, S^{1/e_j}, e_I, e_j)$~\cite{Sha83}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Extending the Vector With New Positions~\cite{CFG+20}}
+    Add a new position $n+1$ with value $v_{n+1}$ to $\dig{v}$\pause:
+    \begin{align}
+        \onslide<2->{\alert{S'} &= S^{e_{n+1}}}\\
+        \onslide<3->{\alert{\Lambda'} &= S^{v_{n+1}} \Lambda^{e_{n+1}}}\\
+        \onslide<4->{&= S^{v_{n+1}}\left(\prod_{j\in [n]} (S^{1/e_j})^{v_j}\right)^{e_{n+1}}}
+        \onslide<5->{= (\alert{S'}^{1/e_{n+1}})^{v_{n+1}}\prod_{j\in [n]} (\alert{S'}^{1/e_j})^{v_j}}
+        \onslide<6->{= \prod_{j\in [n+1]} (\alert{S'}^{1/e_j})^{v_j}}
+    \end{align}
+    \pause[7]\noindent
+    \textbf{Important:} I can do this \textit{sequentially} for $m$ new positions in $O(\ell m)$ time.\pause\\
+    \vspace{1em}
+    \textit{(This will be useful in the next slide and in our UAD construction.)}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\alert{Incrementally} Disaggregating Proofs in CF VCs~\cite{CFG+20}}
+    \alert{Disaggregate} $\pi_I=(S_I,\Lambda_I)$ for $\vect{v}_I$ into $\pi_K=(S_K,\Lambda_K)$ for $\vect{v}_K$\pause, where $K\subset I$\pause\xspace and $\alert{\Delta} = I\setminus K$?\pause\\
+    {\small {\hskip 6.7em} \textcolor{gray}{$\dig{\vect{v}\setminus\vect{v}_I}$} {\hskip 6.0em} \textcolor{gray}{$\dig{\vect{v}\setminus\vect{v}_K}$}\pause\\}
+    \vspace{1em}
+    {Note that $(\vect{v}\setminus \vect{v}_I) + \vect{v}_\Delta \pause = (\vect{v}\setminus \vect{v}_I) + (\vect{v}_I  \setminus \vect{v}_K) \pause = \vect{v}\setminus\vect{v}_K$.}\pause\\
+    % Using set operations is not the best way to clearly explain this because: https://proofwiki.org/wiki/Set_Difference_is_Subset_of_Union_of_Differences
+    \vspace{1em}
+    So, for each $i\in \Delta$, sequentially add each $e_i$ to $S_I$ and $\Lambda_I$.\pause\\
+    Takes $O(\ell|\Delta|)$ $\Gho$ ops, as shown in previous slide.\pause\\
+    \vspace{1em}
+    \underline{Implication}:\xspace
+    Can compute all proofs in $O(\ell n\log{n})$ \Gho ops via disaggregation!\pause
+    \vspace{1em}
+    (\textit{Campanelli et al.~\cite{CFG+20} claim $O(\ell n\log^2{n})$, but this way appears faster.})
+\end{frame}
+
+\begin{frame}
+    \frametitle{\alert{Incrementally} Aggregating Proofs in CF VCs~\cite{CFG+20}}
+    \alert{Aggregate} $\pi_I$ and $\pi_J$ into $\pi_{I\cup J}$?\pause\xspace \textcolor{gray}{\small (Assume $I\cap J=\varnothing$ or disaggregate.)}\pause\\
+
+    {\small {\hskip 2em} $\dig{\vect{v}\setminus\vect{v}_I}$ \textcolor{gray}{\&} $\dig{\vect{v}\setminus\vect{v}_J}$ {\hskip 3.2em} $\dig{(\vect{v}\setminus\vect{v}_I)\setminus\vect{v}_J}$\pause}
+    $$S_{I\cup J} = S^\frac{1}{e_I e_J}\pause =\shamirtrick(S_I, S_J, e_I, e_J)\pause=\shamirtrick(S^{1/e_I}, S^{1/e_J}, e_I, e_J)$$\pause
+    %
+    $\Lambda_{I\cup J}=\prod_{k\in [n]\setminus {(I\cup J)}} (S_{I\cup J}^{1/e_k})^{v_k}=\left(\prod_{k\in [n]\setminus {(I\cup J)}} (S^{1/e_k})^{v_k}\right)^{\alert{\frac{1}{e_I e_J}}}$ is a bit more complicated.\pause\xspace (Two \rootfactor's and a \shamirtrick away.)\pause\\
+    \vspace{1em}
+    \underline{Observation}: $O(\ell|I|\log{|I|})$ \Gho ops to aggregate, assuming $|I| > |J|$.
+\end{frame}

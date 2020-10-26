@@ -1,0 +1,55 @@
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\nop}{\myred{$\times$}}
+\newcommand{\yep}{\textcolor{ForestGreen}{\textbf{\cmark}}}
+
+\newcommand{\g}[1]{\textcolor{ForestGreen}{#1}}
+\newcommand{\m}[1]{\myyellow{#1}}
+
+\begin{frame}
+    \frametitle{Our ADs and Previous Work}
+
+    \begin{table}
+        %\large
+        \small
+        %\footnotesize
+        %\scriptsize
+        \centering
+        \setlength{\tabcolsep}{.4em} % space between columns
+        \pause
+        \begin{tabular}{lccccccc}
+            %\toprule
+            \makecell{AD scheme}
+            & \makecell{Aggrega-\\table $\pi$'s?}
+            & \makecell{Binding}
+            & \makecell{Updata-\\bility?}\footnote<2->{Of individual proofs ($I$), of aggregated proofs ($A$), of cross-aggregated proofs $(X)$ and of digests ($D$).}
+            & \makecell{Update \\hint-free?}
+            & \makecell{Non-memb.\\$\pi$'s?}
+            & \makecell{Append-\\only $\pi$'s?}
+            & \makecell{Prove\\all fast?}
+            \\
+            \toprule
+            Merkle tree~\cite{Merkle87}
+            & \nop                    & \g{Strong} & DI   & \nop & \yep     & \nop & \yep \pause\\
+            SADS~\cite{PSTY13}
+            & \nop                    & \g{Strong} & DI   & \yep & \yep     & \nop & \yep\pause\\
+            AHTs~\cite{PTT15}
+            & \nop                    & \m{Weak}   & \nop & n/a  & \yep     & \nop & \yep\pause\\
+            % See VC.BatchOpen^* for opening multiple VC positions
+            KVC$_1$~\cite{BBF18}
+            & \m{One-hop}             & \g{Strong} & DI   & \nop & \yep     & \nop & \yep\pause\\
+            KVC$_2$~\cite{BBF18}
+            & \m{One-hop}             & \m{Weak}   & DI   & \nop & \yep     & \nop & \yep\pause\\
+            AAD~\cite{Tome20}
+            & \nop                    & \g{Strong} & \nop & n/a  & \yep     & \yep & \yep\pause\\
+            Aardvark~\cite{LGG+20}
+            & \m{One-hop}             & \m{Weak}   & DI   & \nop  & \yep     & \nop & \nop\pause\\
+            KVaC~\cite{AR20}
+            & \m{One-hop}             & \m{Weak}   & DI   & \yep & \nop     & \nop & \nop\pause\\
+            \toprule
+            Our \textbf{UAD}
+            & \g{Cross-incr.}         & \m{Weak}   & ADIX & \nop & $\yep$\footnote<10->{Our UAD supports non-membership proofs, but they can only be ``one-hop'' aggregated.} & \yep & \yep\pause[11]\\
+            Our \textbf{AAD}
+            & \m{One-hop}             & \g{Strong} & a\footnote<11->{Can only update when existing keys change.}DI & \nop & \yep     & \yep & \yep\\
+        \end{tabular}
+    \end{table}
+\end{frame}
